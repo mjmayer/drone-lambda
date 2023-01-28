@@ -1,0 +1,40 @@
+name: Go
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [main]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: golang:1.19.0-bullseye
+    env:
+      AWS_REGION: "localhost"
+      AWS_ACCESS_KEY_ID: "owc85k"
+      AWS_SECRET_ACCESS_KEY: "f08n9"
+      DYNAMODB_ENDPOINT_URL: "http://dynamodb:8000"
+    services:
+      dynamodb:
+        image: amazon/dynamodb-local
+        ports:
+          - 8000
+        env:
+          AWS_ACCESS_KEY_ID: "owc85k"
+          AWS_SECRET_ACCESS_KEY: "f08n9"
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
+    - name: Test
+      run: go test -v ./...
+
+    - name: Build
+      run: go build -v ./...
+
