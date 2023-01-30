@@ -24,4 +24,3 @@ jobs:
         goarch: ${{ matrix.goarch }}
         binary_name: drone-lambda
         ldflags: -X main.Version=${GUTHUB_REF} -X main.Build=${GUTHUB_RUN_ID}
-        compress_assets: zip
