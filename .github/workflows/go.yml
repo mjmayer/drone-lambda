@@ -6,8 +6,18 @@ on:
   pull_request:
     branches: [master]
 
-
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: golang:1.19.0-bullseye
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+    - name: Test
+      run: go test -v ./...
   build:
     strategy:
       matrix:
@@ -17,15 +27,10 @@ jobs:
     container: golang:1.19.0-bullseye
     steps:
     - uses: actions/checkout@v3
-
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
         go-version: 1.19
-
-    - name: Test
-      run: go test -v ./...
-
     - name: Build
       env:
         CGO_ENABLED: 0
