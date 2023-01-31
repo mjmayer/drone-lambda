@@ -36,6 +36,6 @@ jobs:
         CGO_ENABLED: 0
         GOOS: ${{ matrix.goos }}
         GOARCH: ${{ matrix.goarch }}
-        LDFLAGS: -X main.Version=${GUTHUB_REF} -X main.Build=${GUTHUB_RUN_ID}
+        LDFLAGS: -X main.Version=${{ github.ref }} -X main.Build=${{ github.run_id }}
       run: go build -v -ldflags="${LDFLAGS}" ./...
 
